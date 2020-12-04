@@ -1,7 +1,7 @@
 'use strict';
 
 var objectMerge = require('lodash.merge'),
-    minify = require('html-minifier').minify;
+    minify = require('html-minifier-terser').minify;
 
 function minifyHTML(opts) {
 	var default_opts = {
@@ -12,7 +12,8 @@ function minifyHTML(opts) {
 			collapseWhitespace: true,
 			collapseBooleanAttributes: true,
 			removeAttributeQuotes: true,
-			removeEmptyAttributes: true
+      removeEmptyAttributes: true,
+      continueOnParseError: true
 		}
 	};
 
