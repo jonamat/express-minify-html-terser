@@ -1,5 +1,7 @@
-# express-minify-html
+# express-minify-html-terser
 Express middleware wrapper around HTML minifier
+
+This is a fork of [express-minify-html](https://github.com/melonmanchan/express-minify-html) to wrap the newer [html-minifier-terser](https://github.com/terser/html-minifier-terser) instead of html-minifier.
 
 ## Description
 
@@ -8,13 +10,13 @@ This express middleware simply enchances the regular 'render' method of the resp
 ## Usage
 
 ```sh
-npm install --save --production express-minify-html express
+npm i express-minify-html-terser
 ```
 
 ```js
 
 var express    = require('express');
-var minifyHTML = require('express-minify-html');
+var minifyHTML = require('express-minify-html-terser');
 
 var app = express();
 
@@ -68,6 +70,3 @@ Full examples can naturally be found under the 'examples'-folder of this reposit
 ## License
 
 MIT © [Matti Jokitulppo](http://mattij.com)
-
-[![npm version](https://badge.fury.io/js/express-minify-html.svg)](https://badge.fury.io/js/express-minify-html)
-[![npm downloads](https://img.shields.io/npm/dm/express-minify-html.svg)](https://img.shields.io/npm/dm/express-minify-html.svg)

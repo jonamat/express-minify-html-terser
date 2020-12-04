@@ -1,6 +1,6 @@
 {
-  "name": "express-minify-html",
-  "version": "0.12.0",
+  "name": "express-minify-html-terser",
+  "version": "1.0.0",
   "description": "Express middleware around HTML minifier",
   "main": "minifier.js",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/melonmanchan/express-minify-html.git"
+    "url": "git+https://github.com/jonamat/express-minify-html-terser"
   },
   "keywords": [
     "express",
@@ -20,11 +20,10 @@
   "author": "Matti Jokitulppo <melonmanchan@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/melonmanchan/express-minify-html/issues"
+    "url": "https://github.com/jonamat/express-minify-html-terser/issues"
   },
-  "homepage": "https://github.com/melonmanchan/express-minify-html#readme",
+  "homepage": "https://github.com/jonamat/express-minify-html-terser#readme",
   "dependencies": {
-    "html-minifier": "3.5.7",
     "html-minifier-terser": "5.1.1",
     "lodash.merge": "4.6.0"
   },
