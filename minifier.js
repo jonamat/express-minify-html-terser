@@ -1,36 +1,38 @@
-'use strict';
+"use strict";
 
-var objectMerge = require('lodash.merge'),
-    minify = require('html-minifier-terser').minify;
+var objectMerge = require("lodash.merge"),
+  minify = require("html-minifier-terser").minify;
 
 function minifyHTML(opts) {
-	var default_opts = {
-		override: false,
-		exception_url: false,
-		htmlMinifier: {
-			removeComments: true,
-			collapseWhitespace: true,
-			collapseBooleanAttributes: true,
-			removeAttributeQuotes: true,
+  var default_opts = {
+    override: true,
+    exception_url: false,
+    htmlMinifier: {
+      minifyCSS: true,
+      minifyJS: true,
+      removeComments: true,
+      collapseWhitespace: true,
+      collapseBooleanAttributes: true,
+      removeAttributeQuotes: true,
       removeEmptyAttributes: true,
-      continueOnParseError: true
-		}
-	};
+      continueOnParseError: true,
+    },
+  };
 
-	if (!opts) {
-		opts = {};
+  if (!opts) {
+    opts = {};
   }
 
   opts = objectMerge(default_opts, opts);
 
   if (opts.exception_url.constructor !== Array) {
-    opts.exception_url = [ opts.exception_url ];
+    opts.exception_url = [opts.exception_url];
   }
 
   function minifier(req, res, next) {
     var skip = false;
 
-    opts.exception_url.every(function(exception){
+    opts.exception_url.every(function (exception) {
       switch (true) {
         case exception.constructor === RegExp:
           skip = exception.test(req.url);
@@ -48,28 +50,26 @@ function minifyHTML(opts) {
     });
 
     var sendMinified = function (callback) {
-
       // No callback specified, just minify and send to client.
-        if (typeof callback === 'undefined') {
-          return function (err, html) {
-            if (err) {
-              return next(err);
-            }
+      if (typeof callback === "undefined") {
+        return function (err, html) {
+          if (err) {
+            return next(err);
+          }
 
+          html = minify(html, opts.htmlMinifier);
+          res.send(html);
+        };
+      } else {
+        // Custom callback specified by user, use that one
+        return function (err, html) {
+          if (html) {
             html = minify(html, opts.htmlMinifier);
-            res.send(html);
           }
-        } else {
 
-          // Custom callback specified by user, use that one
-          return function (err, html) {
-            if (html) {
-              html = minify(html, opts.htmlMinifier);
-            }
-
-            callback(err, html);
-          }
-        }
+          callback(err, html);
+        };
+      }
     };
 
     res.renderMin = function (view, renderOpts, callback) {
@@ -77,16 +77,16 @@ function minifyHTML(opts) {
     };
 
     if (opts.override && !skip) {
-      res.oldRender = res.render;
+      var render = res.render;
       res.render = function (view, renderOpts, callback) {
-        this.oldRender(view, renderOpts, sendMinified(callback));
+        render.call(this, view, renderOpts, sendMinified(callback));
       };
     }
 
     return next();
   }
 
-  return (minifier);
+  return minifier;
 }
 
 module.exports = minifyHTML;
