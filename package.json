@@ -3,6 +3,7 @@
   "version": "1.0.1",
   "description": "Express middleware around HTML minifier",
   "main": "minifier.js",
+  "types": "index.d.ts",
   "scripts": {
     "test": "node tests"
   },
